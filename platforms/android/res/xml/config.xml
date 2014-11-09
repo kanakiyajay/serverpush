@@ -18,11 +18,11 @@
         <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
     </feature>
     <preference name="useBrowserHistory" value="true" />
-    <name>PushNotificationApp</name>
+    <name>serverPush</name>
     <description>
-        Hello World sample application that responds to the deviceready event.
+        Send a push notification when your server goes down.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
+    <author email="kanakiyajay@yahoo.com" href="http://jaykanakiya.com">
         PhoneGap Team
     </author>
     <feature name="http://api.phonegap.com/1.0/device" />
@@ -41,6 +41,10 @@
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="7" />
     <preference name="android-installLocation" value="auto" />
+    <gap:plugin name="org.apache.cordova.device" />
+    <gap:plugin name="org.apache.cordova.console" />
+    <gap:plugin name="org.apache.cordova.AudioHandler" />
+    <gap:plugin name="com.adobe.plugins.pushplugin" />
     <icon src="icon.png" />
     <icon gap:density="ldpi" gap:platform="android" src="res/icon/android/icon-36-ldpi.png" />
     <icon gap:density="mdpi" gap:platform="android" src="res/icon/android/icon-48-mdpi.png" />
