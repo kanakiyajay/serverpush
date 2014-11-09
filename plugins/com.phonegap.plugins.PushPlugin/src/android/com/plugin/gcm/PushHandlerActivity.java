@@ -1,8 +1,6 @@
 package com.plugin.gcm;
 
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -24,14 +22,15 @@ public class PushHandlerActivity extends Activity
 		super.onCreate(savedInstanceState);
 		Log.v(TAG, "onCreate");
 
-		boolean isPushPluginActive = PushPlugin.isActive();
-		processPushBundle(isPushPluginActive);
-
-		finish();
-
+		boolean isPushPluginActive = PushPlugin.isActive(); 
 		if (!isPushPluginActive) {
 			forceMainActivityReload();
 		}
+		processPushBundle(isPushPluginActive);
+
+		GCMIntentService.cancelNotification(this);
+
+		finish();
 	}
 
 	/**
@@ -43,10 +42,12 @@ public class PushHandlerActivity extends Activity
 		Bundle extras = getIntent().getExtras();
 
 		if (extras != null)	{
+			
 			Bundle originalExtras = extras.getBundle("pushBundle");
-            
-            originalExtras.putBoolean("foreground", false);
-            originalExtras.putBoolean("coldstart", !isPushPluginActive);
+
+			if ( !isPushPluginActive ) { 
+				originalExtras.putBoolean("coldstart", true);
+			}
 
 			PushPlugin.sendExtras(originalExtras);
 		}
@@ -61,12 +62,5 @@ public class PushHandlerActivity extends Activity
 		Intent launchIntent = pm.getLaunchIntentForPackage(getApplicationContext().getPackageName());    		
 		startActivity(launchIntent);
 	}
-
-  @Override
-  protected void onResume() {
-    super.onResume();
-    final NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-    notificationManager.cancelAll();
-  }
 
 }
